@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-0": {
-            "ride\\library\\geocode\\": ["src/"],
+            "ride\\library\\geocode\\": ["src/"]
         }
     }
 }
