@@ -1,8 +1,8 @@
 {
-    "name": "ride/library-geocode",
+    "name": "ride/lib-geocode",
     "description": "Geocode library of the Ride framework",
     "license": "MIT",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "authors": [
         {
             "name": "Joris Vandeweerd",
