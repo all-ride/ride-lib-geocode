@@ -33,10 +33,15 @@ class GeocodeServiceContainer {
     /**
      * Adds a geocode service
      * @param GeocodeService $service Service to use when geocoding
+     * @param boolean $prepend Set to true to prepend this service
      * @return null
      */
-    public function addService(GeocodeService $service) {
-        $this->services[$service->getName()] = $service;
+    public function addService(GeocodeService $service, $prepend = false) {
+        if ($prepend) {
+            $this->services = array($service->getName() => $service) + $this->services;
+        } else {
+            $this->services[$service->getName()] = $service;
+        }
     }
 
     /**
