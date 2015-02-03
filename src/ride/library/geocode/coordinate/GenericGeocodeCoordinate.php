@@ -68,7 +68,7 @@ class GenericGeocodeCoordinate implements GeocodeCoordinate {
      * @param Coordinate $coordinate
      * @return float Distance in km
      */
-    public function getDistance(Coordinate $coordinate) {
+    public function getDistance(GeocodeCoordinate $coordinate) {
         $latitude = $coordinate->getLatitude();
         $longitude = $coordinate->getLongitude();
 
