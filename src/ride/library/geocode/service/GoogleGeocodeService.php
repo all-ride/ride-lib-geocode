@@ -26,7 +26,22 @@ class GoogleGeocodeService extends AbstractGeocodeService {
      * URL to query for coordinates
      * @var string
      */
-    const URL_GEOCODE = 'http://maps.google.com/maps/api/geocode/json?address=%address%&sensor=false';
+    const URL_GEOCODE = 'https://maps.google.com/maps/api/geocode/json?address=%address%&sensor=false';
+
+    /**
+     * API key for Google services
+     * @var string
+     */
+    private $apiKey;
+
+    /**
+     * Sets the Google API key
+     * @param string $apiKey API key
+     * @return null
+     */
+    public function setApiKey($apiKey) {
+        $this->apiKey = $apiKey;
+    }
 
     /**
      * Performs geocoding on the provided query
@@ -39,6 +54,9 @@ class GoogleGeocodeService extends AbstractGeocodeService {
     public function geocode($address) {
         try {
             $url = str_replace('%address%', urlencode($address), self::URL_GEOCODE);
+            if ($this->apiKey) {
+                $url .= '&key=' . $this->apiKey;
+            }
 
             $response = $this->httpClient->get($url);
             if ($response->getStatusCode() != Response::STATUS_CODE_OK) {
@@ -52,11 +70,23 @@ class GoogleGeocodeService extends AbstractGeocodeService {
                 throw new GeocodeException('Unexpected response');
             }
 
-            if ($data->status !== 'OK') {
-                throw new GeocodeException('Server replied with status ' . $data->status);
-            }
+            switch ($data->status) {
+                case 'OK':
+                    // response is ok, parse the results
+                    return $this->parseServiceResults($data->results);
+                case 'OVER_QUERY_LIMIT':
+                    if (strpos($data->error_message, 'You have exceeded your daily request quota for this API.') !== 0) {
+                        // we're over the query limit per second, delay and try again
+                        sleep(1);
 
-            return $this->parseServiceResults($data->results);
+                        return $this->geocode($address);
+                    }
+
+                    // we're over daily limit, throw exception from default
+                default:
+                    // something else, let's crash
+                    throw new GeocodeException('Server replied with status ' . $data->status . ': ' . $data->error_message);
+            }
         } catch (Exception $exception) {
             throw new GeocodeException('Could not geocode ' . $address . ': ' . $exception->getMessage(), 0, $exception);
         }
@@ -81,6 +111,10 @@ class GoogleGeocodeService extends AbstractGeocodeService {
      * @return \ride\library\geocode\GeocodeResult
      */
     protected function parseServiceResult($serviceResult) {
+        if (is_array($serviceResult)) {
+            $serviceResult = array_shift($serviceResult);
+        }
+
         $properties = array(
             'coordinate' => new GenericGeocodeCoordinate($serviceResult->geometry->location->lat, $serviceResult->geometry->location->lng),
         );
