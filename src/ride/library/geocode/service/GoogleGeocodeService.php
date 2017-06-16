@@ -5,7 +5,7 @@ namespace ride\library\geocode\service;
 use ride\library\geocode\coordinate\GenericGeocodeCoordinate;
 use ride\library\geocode\coordinate\GeocodeCoordinate;
 use ride\library\geocode\exception\GeocodeException;
-use ride\library\geocode\result\GenericGeocodeResult;
+use ride\library\geocode\result\GoogleGeocodeResult;
 use ride\library\http\client\Client;
 use ride\library\http\Response;
 
