@@ -119,6 +119,10 @@ class GoogleGeocodeService extends AbstractGeocodeService {
             'coordinate' => new GenericGeocodeCoordinate($serviceResult->geometry->location->lat, $serviceResult->geometry->location->lng),
         );
 
+        if (isset($serviceResult->place_id)) {
+            $properties['placeId'] = $serviceResult->place_id;
+        }
+
         foreach ($serviceResult->address_components as $component) {
             foreach ($component->types as $type) {
                 switch ($type) {
@@ -152,7 +156,7 @@ class GoogleGeocodeService extends AbstractGeocodeService {
             }
         }
 
-        return new GenericGeocodeResult($properties);
+        return new GoogleGeocodeResult($properties);
     }
 
 }
