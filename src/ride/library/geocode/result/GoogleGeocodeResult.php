@@ -14,11 +14,25 @@ class GoogleGeocodeResult extends GenericGeocodeResult {
     protected $placeId;
 
     /**
+     * Province of the geo location for Google
+     * @var string
+     */
+    protected $province;
+
+    /**
      * Gets the place id of this result
      * @return string
      */
     public function getPlaceId() {
         return $this->placeId;
+    }
+
+    /**
+     * Gets the province of this result
+     * @return string
+     */
+    public function getProvince() {
+        return $this->province;
     }
 
 }

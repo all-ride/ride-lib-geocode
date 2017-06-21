@@ -147,6 +147,11 @@ class GoogleGeocodeService extends AbstractGeocodeService {
                         $properties['regionCode'] = $component->short_name;
 
                         break;
+                    case 'administrative_area_level_2':
+                        $properties['province'] = $component->long_name;
+                        $properties['provinceCode'] = $component->short_name;
+
+                        break;
                     case 'country':
                         $properties['country'] = $component->long_name;
                         $properties['countryCode'] = $component->short_name;
