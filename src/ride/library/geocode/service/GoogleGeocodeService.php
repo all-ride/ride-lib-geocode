@@ -74,6 +74,8 @@ class GoogleGeocodeService extends AbstractGeocodeService {
                 case 'OK':
                     // response is ok, parse the results
                     return $this->parseServiceResults($data->results);
+                case 'ZERO_RESULTS':
+                    return array();
                 case 'OVER_QUERY_LIMIT':
                     if (strpos($data->error_message, 'You have exceeded your daily request quota for this API.') !== 0) {
                         // we're over the query limit per second, delay and try again
