@@ -1,3 +1,7 @@
+# 1.3.0 - 2017-09-20
+## Added
+- implemented language parameter for the Google service
+
 # 1.2.1 - 2017-09-15
 ## Added
 - implemented zero results from Google

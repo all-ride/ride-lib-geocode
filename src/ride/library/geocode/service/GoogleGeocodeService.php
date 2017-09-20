@@ -44,6 +44,15 @@ class GoogleGeocodeService extends AbstractGeocodeService {
     }
 
     /**
+     * Sets the language for the geocode requests
+     * @param string $language Language code
+     * @return null
+     */
+    public function setLanguage($language) {
+        $this->language = $language;
+    }
+
+    /**
      * Performs geocoding on the provided query
      * @param string $address Location or IP address
      * @return array Array of geocode results
@@ -56,6 +65,9 @@ class GoogleGeocodeService extends AbstractGeocodeService {
             $url = str_replace('%address%', urlencode($address), self::URL_GEOCODE);
             if ($this->apiKey) {
                 $url .= '&key=' . $this->apiKey;
+            }
+            if ($this->language) {
+                $url .= '&language=' . $this->language;
             }
 
             $response = $this->httpClient->get($url);
