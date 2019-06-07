@@ -35,6 +35,12 @@ class GoogleGeocodeService extends AbstractGeocodeService {
     private $apiKey;
 
     /**
+     * Language for the geocode requests
+     * @var string
+     */
+    private $language;
+
+    /**
      * Sets the Google API key
      * @param string $apiKey API key
      * @return null
