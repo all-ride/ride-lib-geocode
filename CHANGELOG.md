@@ -1,3 +1,7 @@
+# 1.3.1 - 2019-06-07
+## Updated
+- fixed language parameter definition
+
 # 1.3.0 - 2017-09-20
 ## Added
 - implemented language parameter for the Google service
